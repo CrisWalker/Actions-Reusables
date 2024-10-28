@@ -1,1 +1,17 @@
+name: Create Feature Branch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create_branch:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Run script to create folder and branch
+      run: |
+        ../create_branch.sh
 
