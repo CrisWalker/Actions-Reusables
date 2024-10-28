@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v3
       
     - name: Grant execute permissions for the script
-      run: chmod +x ./create_branch.sh
+      run: chmod +x ./CreateChange.sh
 
     - name: Run script to create folder and branch
       run: |
