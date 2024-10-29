@@ -8,4 +8,4 @@ mkdir "$folder_name"
 echo "Carpeta '$folder_name' creada."
 
 # Exporta el nombre de la carpeta como variable de entorno para GitHub Actions
-echo "FOLDER_NAME=$folder_name" >> $GITHUB_ENV
+echo "FOLDER_NAME=$folder_name" >> $GITHUB_OUTPUT
