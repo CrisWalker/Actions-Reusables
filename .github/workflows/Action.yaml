@@ -15,8 +15,11 @@ jobs:
       run: chmod +x ./CreateFolder.sh
 
     - name: Run script to create folder and branch
+      id: Folder_name
       run: |
         ./CreateFolder.sh
         
     - name: Use folder name variable
-      run: echo "El nombre de la carpeta creada es: $FOLDER_NAME"
+      env:
+          Folder: ${{ steps.Folder_name.outputs.FOLDER_NAME }}
+      run: echo "El nombre de la carpeta creada es: $Folder"
