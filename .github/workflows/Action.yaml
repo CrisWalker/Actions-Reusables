@@ -20,6 +20,4 @@ jobs:
         ./CreateFolder.sh
         
     - name: Use folder name variable
-      env:
-          Folder: ${{ steps.Folder_name.outputs.FOLDER_NAME }}
-      run: echo "El nombre de la carpeta creada es: $Folder"
+      run: echo "The result is ${{ steps.Folder_name.outputs.FOLDER_NAME }}"
