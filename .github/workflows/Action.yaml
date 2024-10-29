@@ -16,5 +16,5 @@ jobs:
 
     - name: Run script to create folder and branch
       run: |
-        ./CreateChange.sh
+        ./CreateFolder.sh
 
