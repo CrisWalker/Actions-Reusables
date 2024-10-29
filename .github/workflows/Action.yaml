@@ -17,4 +17,6 @@ jobs:
     - name: Run script to create folder and branch
       run: |
         ./CreateFolder.sh
-
+        
+    - name: Use folder name variable
+      run: echo "El nombre de la carpeta creada es: $FOLDER_NAME"
