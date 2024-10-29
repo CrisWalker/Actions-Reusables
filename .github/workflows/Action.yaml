@@ -21,3 +21,11 @@ jobs:
         
     - name: Use folder name variable
       run: echo "The result is ${{ steps.Folder_name.outputs.FOLDER_NAME }}"
+
+    - name: Use folder name variabl
+      run: |
+        git checkout -b feature/<nombre-de-la-rama>
+        gh repo sync
+        gh pr create --head feature/<nombre-de-la-rama> --title "Feature/${{ steps.Folder_name.outputs.FOLDER_NAME }}"
+      env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
