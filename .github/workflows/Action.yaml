@@ -30,7 +30,7 @@ jobs:
         git sparse-checkout init --cone
 
         # Selecciona solo los archivos que necesitas
-        git sparse-checkout set prueba.txt carpeta/carpeta2/prueba4.txt
+        git sparse-checkout set ./prueba.txt ./carpeta/carpeta2/prueba4.txt
 
         # Cambia a la rama principal (main) para asegurarte de estar en una base limpia
         git checkout main
