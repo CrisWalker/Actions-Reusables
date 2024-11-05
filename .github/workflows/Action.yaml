@@ -28,8 +28,18 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         # Generar un nombre aleatorio para la rama
-        branch_name="feature/${{ steps.Folder_name.outputs.FOLDER_NAME }}"
+        #branch_name="feature/${{ steps.Folder_name.outputs.FOLDER_NAME }}"
         
         # Crear la nueva rama y hacer push al repositorio remoto
-        git checkout -b "$branch_name"
-        git push origin "$branch_name"
+        #git checkout -b "$branch_name"
+        #git push origin "$branch_name"
+         git checkout -b feature/prueba
+          
+        # Agrega los archivos que deseas incluir en la nueva rama
+        git add prueba.txt carpeta/carpeta2/prueba4.txt
+          
+          # Realiza el commit de los cambios
+        git commit -m "Agregados archivos específicos a la nueva rama"
+          
+          # Sube la nueva rama al repositorio remoto
+        git push origin feature/prueba
