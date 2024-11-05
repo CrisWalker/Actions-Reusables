@@ -32,6 +32,8 @@ jobs:
         
         # Crear la nueva rama y hacer push al repositorio remoto
         git checkout -b "$branch_name"
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
         
           
         # Agrega los archivos que deseas incluir en la nueva rama
