@@ -11,6 +11,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
       
     - name: Grant execute permissions for the script
       run: chmod +x ./CreateFolder.sh
@@ -22,6 +24,16 @@ jobs:
         
     - name: Use folder name variable
       run: echo "The result is ${{ steps.Folder_name.outputs.FOLDER_NAME }}"
+    - name: Configurar sparse-checkout para archivos específicos
+      run: |
+        # Inicializa sparse-checkout
+        git sparse-checkout init --cone
+
+        # Selecciona solo los archivos que necesitas
+        git sparse-checkout set prueba.txt carpeta/carpeta2/prueba4.txt
+
+        # Cambia a la rama principal (main) para asegurarte de estar en una base limpia
+        git checkout main
 
     - name: Create feature branch
       env:
@@ -39,7 +51,7 @@ jobs:
         
           
         # Agrega los archivos que deseas incluir en la nueva rama
-        git add prueba.txt carpeta/carpeta2/prueba4.txt
+        git add .
           
           # Realiza el commit de los cambios
         git commit -m "Agregados archivos específicos a la nueva rama"
