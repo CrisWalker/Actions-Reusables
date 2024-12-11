@@ -19,6 +19,8 @@ jobs:
 
       - name: Get the latest version number
         id: version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Check if there are any tags
           if git describe --tags --abbrev=0 >/dev/null 2>&1; then
