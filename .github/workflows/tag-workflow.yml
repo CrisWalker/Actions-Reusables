@@ -1,0 +1,36 @@
+name: Tag Successor on PR Merge
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - laboratorio
+
+jobs:
+  tag_successor:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Get the latest tag
+      id: get_tag
+      run: |
+        latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
+        echo "latest_tag=$latest_tag" >> $GITHUB_ENV
+
+    - name: Create successor tag
+      id: create_tag
+      run: |
+        # Increment the tag version (Assuming semantic versioning)
+        IFS='.' read -r -a tag_parts <<< "$latest_tag"
+        new_tag="${tag_parts[0]}.${tag_parts[1]}.$((tag_parts[2] + 1))"
+        echo "new_tag=$new_tag" >> $GITHUB_ENV
+
+    - name: Push successor tag
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git tag ${{ env.new_tag }}
+        git push origin ${{ env.new_tag }}
