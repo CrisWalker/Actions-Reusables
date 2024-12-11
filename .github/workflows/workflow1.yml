@@ -22,8 +22,10 @@ jobs:
         run: |
           # Check if there are any tags
           if git describe --tags --abbrev=0 >/dev/null 2>&1; then
+            echo "encontre tag"
             LAST_TAG=$(git describe --tags --abbrev=0)
           else
+            echo "cree uno nuevo"
             LAST_TAG="v0.0.0" # Initial tag if no tags are found
           fi
           echo "Last tag: $LAST_TAG"
