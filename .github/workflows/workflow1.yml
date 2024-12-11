@@ -1,0 +1,42 @@
+name: Version and Move Tag
+
+on:
+  push:
+    branches:
+      - integracion
+
+jobs:
+  version-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Get the latest version number
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Check if there are any tags
+          if git describe --tags --abbrev=0 >/dev/null 2>&1; then
+            echo "encontre tag"
+            LAST_TAG=$(git describe --tags --abbrev=0)
+          else
+            echo "cree uno nuevo"
+            LAST_TAG="v0.0.0" # Initial tag if no tags are found
+          fi
+          echo "Last tag: $LAST_TAG"
+
+          # Generate a new tag with an incremented version or timestamp
+          NEW_TAG="${LAST_TAG}-v$(date +'%Y%m%d%H%M%S')"
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
+
+      - name: Create and push the new tag
+        run: |
+          git tag ${{ env.NEW_TAG }}
+          git push origin ${{ env.NEW_TAG }}
