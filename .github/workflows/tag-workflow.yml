@@ -11,9 +11,10 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout source branch
-      uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v4
       with:
+        fetch-depth: 0
         ref: ${{ github.event.pull_request.head.ref }}
 
     - name: Get the latest tag from source branch
@@ -29,10 +30,11 @@ jobs:
         new_tag="${tag_parts[0]}.${tag_parts[1]}.$((tag_parts[2] + 1))"
         echo "new_tag=$new_tag" >> $GITHUB_ENV
 
-    - name: Checkout destination branch
-      uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v4
       with:
-        ref: integracion
+        fetch-depth: 0
+        ref: laboratorio
 
     - name: Push successor tag to destination branch
       run: |
