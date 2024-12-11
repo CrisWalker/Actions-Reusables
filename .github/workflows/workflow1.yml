@@ -1,4 +1,4 @@
-name: Version and Move Tag 1
+name: Version and Move Tag
 
 on:
   push:
@@ -20,14 +20,19 @@ jobs:
       - name: Get the latest version number
         id: version
         run: |
-          # Get the latest tag
-          LAST_TAG=$(git describe --tags --abbrev=0)
+          # Check if there are any tags
+          if git describe --tags --abbrev=0 >/dev/null 2>&1; then
+            LAST_TAG=$(git describe --tags --abbrev=0)
+          else
+            LAST_TAG="v0.0.0" # Initial tag if no tags are found
+          fi
+          echo "Last tag: $LAST_TAG"
+
           # Generate a new tag with an incremented version or timestamp
           NEW_TAG="${LAST_TAG}-v$(date +'%Y%m%d%H%M%S')"
-          echo "New tag: $NEW_TAG"
-          echo "::set-output name=tag::$NEW_TAG"
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
 
       - name: Create and push the new tag
         run: |
-          git tag ${{ steps.version.outputs.tag }}
-          git push origin ${{ steps.version.outputs.tag }}
+          git tag ${{ env.NEW_TAG }}
+          git push origin ${{ env.NEW_TAG }}
