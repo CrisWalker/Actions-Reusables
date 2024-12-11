@@ -1,0 +1,33 @@
+name: Version and Move Tag
+
+on:
+  push:
+    branches:
+      - integracion
+
+jobs:
+  version-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Get the latest version number
+        id: version
+        run: |
+          # Get the latest tag
+          LAST_TAG=$(git describe --tags --abbrev=0)
+          # Generate a new tag with an incremented version or timestamp
+          NEW_TAG="${LAST_TAG}-v$(date +'%Y%m%d%H%M%S')"
+          echo "New tag: $NEW_TAG"
+          echo "::set-output name=tag::$NEW_TAG"
+
+      - name: Create and push the new tag
+        run: |
+          git tag ${{ steps.version.outputs.tag }}
+          git push origin ${{ steps.version.outputs.tag }}
