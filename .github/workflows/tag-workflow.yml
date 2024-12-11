@@ -11,10 +11,12 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
+    - name: Checkout source branch
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
 
-    - name: Get the latest tag
+    - name: Get the latest tag from source branch
       id: get_tag
       run: |
         latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
@@ -23,12 +25,16 @@ jobs:
     - name: Create successor tag
       id: create_tag
       run: |
-        # Increment the tag version (Assuming semantic versioning)
-        IFS='.' read -r -a tag_parts <<< "$latest_tag"
+        IFS='.' read -r -a tag_parts <<< "${{ env.latest_tag }}"
         new_tag="${tag_parts[0]}.${tag_parts[1]}.$((tag_parts[2] + 1))"
         echo "new_tag=$new_tag" >> $GITHUB_ENV
 
-    - name: Push successor tag
+    - name: Checkout destination branch
+      uses: actions/checkout@v2
+      with:
+        ref: integracion
+
+    - name: Push successor tag to destination branch
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
