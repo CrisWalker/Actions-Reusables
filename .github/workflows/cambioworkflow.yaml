@@ -1,0 +1,80 @@
+name: 'Common Action'
+description: 'Custom action that acepts various input variables.'
+inputs:
+  ENV:
+    description: 'Environment maven'
+    required: false
+  ARTIFACTORY_READER_USER:
+    description: 'Artifactory reader user'
+    required: false
+  ARTIFACTORY_READER_API_KEY:
+    description: 'Artifactory reader API key'
+    required: false
+  PATH_MAVEN:
+    description: 'Path to maven for sonar'
+    required: false
+  PATH_JDK:
+    description: 'Path to JDK for sonar'
+    required: false
+  URL_FILE_MAVEN:
+    description: 'URL file maven'
+    required: false
+  URL_FILE_JDK:
+    description: 'URL file JDK'
+    required: false
+  FUNCTION:
+    description: 'Function to execute'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Build from JFROG Motor-Conocimiento
+      if: inputs.FUNCTION == 'build-motor-conocimiento-sonar'
+      shell: bash
+      run: |
+        echo ${{ inputs.FUNCTION }}
+        CURRENT_PATH=$(pwd)/.github/actions/davi-pas-action-common-pipeline
+        bash $CURRENT_PATH/build-motor-conocimiento-sonar.sh \
+          --ENV=${{ inputs.ENV }} \
+          --ARTIFACTORY_READER_USER=${{ inputs.ARTIFACTORY_READER_USER }} \
+          --ARTIFACTORY_READER_API_KEY=${{ inputs.ARTIFACTORY_READER_API_KEY }} \
+          --PATH_MAVEN=${{ inputs.PATH_MAVEN }}
+
+    - name: Build from JFROG Embargos
+      if: inputs.FUNCTION == 'build-embargos-sonar'
+      shell: bash
+      run: |
+        echo ${{ inputs.FUNCTION }}
+        CURRENT_PATH=$(pwd)/.github/actions/davi-pas-action-common-pipeline
+        bash $CURRENT_PATH/build-embargos-sonar.sh \
+          --ENV=${{ inputs.ENV }} \
+          --ARTIFACTORY_READER_USER=${{ inputs.ARTIFACTORY_READER_USER }} \
+          --ARTIFACTORY_READER_API_KEY=${{ inputs.ARTIFACTORY_READER_API_KEY }} \
+          --PATH_MAVEN=${{ inputs.PATH_MAVEN }} \
+          --PATH_JDK=${{ inputs.PATH_JDK }}
+
+    - name: Build Embargos
+      if: inputs.FUNCTION == 'build-embargos'
+      shell: bash
+      run: |
+        echo ${{ inputs.FUNCTION }}
+        CURRENT_PATH=$(pwd)/.github/actions/davi-pas-action-common-pipeline
+        bash $CURRENT_PATH/build-embargos.sh \
+          --ENV=${{ inputs.ENV }} \
+          --ARTIFACTORY_READER_USER=${{ inputs.ARTIFACTORY_READER_USER }} \
+          --ARTIFACTORY_READER_API_KEY=${{ inputs.ARTIFACTORY_READER_API_KEY }} \
+          --URL_FILE_MAVEN=${{ inputs.URL_FILE_MAVEN }} \
+          --URL_FILE_JDK=${{ inputs.URL_FILE_JDK }}
+
+    - name: Build Motor-Conocimiento
+      if: inputs.FUNCTION == 'build-motor-conocimiento'
+      shell: bash
+      run: |
+        echo ${{ inputs.FUNCTION }}
+        CURRENT_PATH=$(pwd)/.github/actions/davi-pas-action-common-pipeline
+        bash $CURRENT_PATH/build-motor-conocimiento.sh \
+          --ENV=${{ inputs.ENV }} \
+          --ARTIFACTORY_READER_USER=${{ inputs.ARTIFACTORY_READER_USER }} \
+          --ARTIFACTORY_READER_API_KEY=${{ inputs.ARTIFACTORY_READER_API_KEY }} \
+          --URL_FILE_MAVEN=${{ inputs.URL_FILE_MAVEN }}
