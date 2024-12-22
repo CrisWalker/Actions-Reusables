@@ -1,80 +1,58 @@
 name: 'action crear cambio'
 description: 'Action crear cambio que acepta las variables necesarias'
 inputs:
-  ENV:
-    description: 'Environment maven'
-    required: false
-  ARTIFACTORY_READER_USER:
-    description: 'Artifactory reader user'
-    required: false
-  ARTIFACTORY_READER_API_KEY:
-    description: 'Artifactory reader API key'
-    required: false
-  PATH_MAVEN:
-    description: 'Path to maven for sonar'
-    required: false
-  PATH_JDK:
-    description: 'Path to JDK for sonar'
-    required: false
-  URL_FILE_MAVEN:
-    description: 'URL file maven'
-    required: false
-  URL_FILE_JDK:
-    description: 'URL file JDK'
-    required: false
-  FUNCTION:
-    description: 'Function to execute'
+  INSTANCIA:
     required: true
+  FUNCION:
+    required: true
+  CAMBIO:
+    required: true
+  PRODUCTO:
+    required: true
+  DESCRIPCION:
+    required: true
+  CAMBIOPCSEG:
+    required: true
+  TIPO_PROYECTO:
+    required: true
+  ID_PROYECTO:
+    required: true
+  PROCESO:
+    required: true
+
 
 runs:
   using: composite
   steps:
-    - name: Build from JFROG Motor-Conocimiento
-      if: inputs.FUNCTION == 'build-motor-conocimiento-sonar'
+    - name: Creacion Del Cambio
+      if: inputs.PROCESO == 'crear_cambio'
       shell: bash
       run: |
-        echo ${{ inputs.FUNCTION }}
+        echo ${{ inputs.PROCESO }}
         CURRENT_PATH=$(pwd)/.github/actions/davi-pas-action-common-pipeline
-        bash $CURRENT_PATH/build-motor-conocimiento-sonar.sh \
+        bash $CURRENT_PATH/crear.sh \
           --ENV=${{ inputs.ENV }} \
-          --ARTIFACTORY_READER_USER=${{ inputs.ARTIFACTORY_READER_USER }} \
-          --ARTIFACTORY_READER_API_KEY=${{ inputs.ARTIFACTORY_READER_API_KEY }} \
-          --PATH_MAVEN=${{ inputs.PATH_MAVEN }}
+          --FUNCION=${{ inputs.FUNCION }} \
+          --CAMBIO=${{ inputs.CAMBIO }} \
+          --PRODUCTO=${{ inputs.PRODUCTO }} \
+          --DESCRIPCION=${{ inputs.DESCRIPCION }} \
+          --CAMBIOPCSEG=${{ inputs.CAMBIOPCSEG }} \
+          --TIPO_PROYECTO=${{ inputs.TIPO_PROYECTO }} \
+          --ID_PROYECTO=${{ inputs.ID_PROYECTO }}
 
-    - name: Build from JFROG Embargos
-      if: inputs.FUNCTION == 'build-embargos-sonar'
+    - name: Actualizacion del cambio
+      if: inputs.PROCESO == 'actualizar_cambio'
       shell: bash
       run: |
-        echo ${{ inputs.FUNCTION }}
+        echo ${{ inputs.PROCESO }}
         CURRENT_PATH=$(pwd)/.github/actions/davi-pas-action-common-pipeline
-        bash $CURRENT_PATH/build-embargos-sonar.sh \
+        bash $CURRENT_PATH/actualizar.sh \
           --ENV=${{ inputs.ENV }} \
-          --ARTIFACTORY_READER_USER=${{ inputs.ARTIFACTORY_READER_USER }} \
-          --ARTIFACTORY_READER_API_KEY=${{ inputs.ARTIFACTORY_READER_API_KEY }} \
-          --PATH_MAVEN=${{ inputs.PATH_MAVEN }} \
-          --PATH_JDK=${{ inputs.PATH_JDK }}
+          --FUNCION=${{ inputs.FUNCION }} \
+          --CAMBIO=${{ inputs.CAMBIO }} \
+          --PRODUCTO=${{ inputs.PRODUCTO }} \
+          --DESCRIPCION=${{ inputs.DESCRIPCION }} \
+          --CAMBIOPCSEG=${{ inputs.CAMBIOPCSEG }} \
+          --TIPO_PROYECTO=${{ inputs.TIPO_PROYECTO }} \
+          --ID_PROYECTO=${{ inputs.ID_PROYECTO }}
 
-    - name: Build Embargos
-      if: inputs.FUNCTION == 'build-embargos'
-      shell: bash
-      run: |
-        echo ${{ inputs.FUNCTION }}
-        CURRENT_PATH=$(pwd)/.github/actions/davi-pas-action-common-pipeline
-        bash $CURRENT_PATH/build-embargos.sh \
-          --ENV=${{ inputs.ENV }} \
-          --ARTIFACTORY_READER_USER=${{ inputs.ARTIFACTORY_READER_USER }} \
-          --ARTIFACTORY_READER_API_KEY=${{ inputs.ARTIFACTORY_READER_API_KEY }} \
-          --URL_FILE_MAVEN=${{ inputs.URL_FILE_MAVEN }} \
-          --URL_FILE_JDK=${{ inputs.URL_FILE_JDK }}
-
-    - name: Build Motor-Conocimiento
-      if: inputs.FUNCTION == 'build-motor-conocimiento'
-      shell: bash
-      run: |
-        echo ${{ inputs.FUNCTION }}
-        CURRENT_PATH=$(pwd)/.github/actions/davi-pas-action-common-pipeline
-        bash $CURRENT_PATH/build-motor-conocimiento.sh \
-          --ENV=${{ inputs.ENV }} \
-          --ARTIFACTORY_READER_USER=${{ inputs.ARTIFACTORY_READER_USER }} \
-          --ARTIFACTORY_READER_API_KEY=${{ inputs.ARTIFACTORY_READER_API_KEY }} \
-          --URL_FILE_MAVEN=${{ inputs.URL_FILE_MAVEN }}
