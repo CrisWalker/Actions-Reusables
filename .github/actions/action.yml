@@ -19,6 +19,8 @@ inputs:
     required: true
   PROCESO:
     required: true
+env:
+  CONEXION: ${{ secrets.conexion }}
 
 
 runs:
