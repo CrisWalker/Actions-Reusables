@@ -33,6 +33,7 @@ runs:
         echo ${{ inputs.PROCESO }}
         CURRENT_PATH=$(pwd)/.github/actions/davi-pas-action-common-pipeline
         bash $CURRENT_PATH/crear.sh \
+          --CONEXION=${{env.CONEXION}} \
           --ENV=${{ inputs.ENV }} \
           --FUNCION=${{ inputs.FUNCION }} \
           --CAMBIO=${{ inputs.CAMBIO }} \
@@ -49,6 +50,7 @@ runs:
         echo ${{ inputs.PROCESO }}
         CURRENT_PATH=$(pwd)/.github/actions/davi-pas-action-common-pipeline
         bash $CURRENT_PATH/actualizar.sh \
+          --CONEXION=${{env.CONEXION}} \
           --ENV=${{ inputs.ENV }} \
           --FUNCION=${{ inputs.FUNCION }} \
           --CAMBIO=${{ inputs.CAMBIO }} \
