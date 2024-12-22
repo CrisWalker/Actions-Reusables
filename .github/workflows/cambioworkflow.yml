@@ -1,5 +1,5 @@
-name: 'Common Action'
-description: 'Custom action that acepts various input variables.'
+name: 'action crear cambio'
+description: 'Action crear cambio que acepta las variables necesarias'
 inputs:
   ENV:
     description: 'Environment maven'
