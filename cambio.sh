@@ -28,9 +28,7 @@ for arg in "$@"; do
     --ID_PROYECTO=*)
          ID_PROYECTO="${arg#*=}"
         ;;
-    --CONEXION=*)
-         CONEXION="${arg#*=}"
-        ;;
+
     esac
     shift
 done
