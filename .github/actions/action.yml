@@ -1,0 +1,60 @@
+name: 'action crear cambio'
+description: 'Action crear cambio que acepta las variables necesarias'
+inputs:
+  INSTANCIA:
+    required: true
+  FUNCION:
+    required: true
+  CAMBIO:
+    required: true
+  PRODUCTO:
+    required: true
+  DESCRIPCION:
+    required: true
+  CAMBIOPCSEG:
+    required: true
+  TIPO_PROYECTO:
+    required: true
+  ID_PROYECTO:
+    required: true
+  PROCESO:
+    required: true
+env:
+  CONEXION: ${{ secrets.conexion }}
+
+
+runs:
+  using: composite
+  steps:
+    - name: Creacion Del Cambio
+      if: inputs.PROCESO == 'crear_cambio'
+      shell: bash
+      run: |
+        echo ${{ inputs.PROCESO }}
+        CURRENT_PATH=$(pwd)/.github/actions/davi-pas-action-common-pipeline
+        bash $CURRENT_PATH/crear.sh \
+          --ENV=${{ inputs.ENV }} \
+          --FUNCION=${{ inputs.FUNCION }} \
+          --CAMBIO=${{ inputs.CAMBIO }} \
+          --PRODUCTO=${{ inputs.PRODUCTO }} \
+          --DESCRIPCION=${{ inputs.DESCRIPCION }} \
+          --CAMBIOPCSEG=${{ inputs.CAMBIOPCSEG }} \
+          --TIPO_PROYECTO=${{ inputs.TIPO_PROYECTO }} \
+          --ID_PROYECTO=${{ inputs.ID_PROYECTO }}
+
+    - name: Actualizacion del cambio
+      if: inputs.PROCESO == 'actualizar_cambio'
+      shell: bash
+      run: |
+        echo ${{ inputs.PROCESO }}
+        CURRENT_PATH=$(pwd)/.github/actions/davi-pas-action-common-pipeline
+        bash $CURRENT_PATH/actualizar.sh \
+          --ENV=${{ inputs.ENV }} \
+          --FUNCION=${{ inputs.FUNCION }} \
+          --CAMBIO=${{ inputs.CAMBIO }} \
+          --PRODUCTO=${{ inputs.PRODUCTO }} \
+          --DESCRIPCION=${{ inputs.DESCRIPCION }} \
+          --CAMBIOPCSEG=${{ inputs.CAMBIOPCSEG }} \
+          --TIPO_PROYECTO=${{ inputs.TIPO_PROYECTO }} \
+          --ID_PROYECTO=${{ inputs.ID_PROYECTO }}
+
